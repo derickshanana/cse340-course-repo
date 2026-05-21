@@ -42,27 +42,27 @@ CREATE TABLE project (
 
 -- BrightFuture Builders (org 1)
 INSERT INTO project (title, description, location, date, organization_id) VALUES
-('Park Cleanup',         'Join us to clean up local parks and make them beautiful for everyone to enjoy.',         'Central Park, Bulawayo',       '2025-08-02', 1),
-('School Renovation',    'Help renovate classrooms at a local primary school to improve learning conditions.',     'Makokoba Primary, Bulawayo',   '2025-08-16', 1),
-('Road Repair Drive',    'Assist with filling potholes and repairing pedestrian paths in our neighbourhood.',      'Suburbs Road, Bulawayo',       '2025-09-06', 1),
-('Bridge Build',         'Volunteer to help construct a small footbridge over a seasonal stream.',                 'Luveve, Bulawayo',             '2025-09-20', 1),
-('Community Hall Paint', 'Repaint the interior and exterior of the local community hall.',                         'Nkulumane Hall, Bulawayo',     '2025-10-04', 1);
+('Park Cleanup',         'Join us to clean up local parks and make them beautiful for everyone to enjoy.',         'Central Park, Bulawayo',       '2026-08-02', 1),
+('School Renovation',    'Help renovate classrooms at a local primary school to improve learning conditions.',     'Makokoba Primary, Bulawayo',   '2026-08-16', 1),
+('Road Repair Drive',    'Assist with filling potholes and repairing pedestrian paths in our neighbourhood.',      'Suburbs Road, Bulawayo',       '2026-09-06', 1),
+('Bridge Build',         'Volunteer to help construct a small footbridge over a seasonal stream.',                 'Luveve, Bulawayo',             '2026-09-20', 1),
+('Community Hall Paint', 'Repaint the interior and exterior of the local community hall.',                         'Nkulumane Hall, Bulawayo',     '2026-10-04', 1);
 
 -- GreenHarvest Growers (org 2)
 INSERT INTO project (title, description, location, date, organization_id) VALUES
-('Urban Garden Setup',   'Help establish raised-bed vegetable gardens in underserved neighbourhoods.',             'Mpopoma, Bulawayo',            '2025-08-09', 2),
-('Tree Planting Day',    'Plant indigenous trees along school fences to restore green cover.',                     'Pumula South, Bulawayo',       '2025-08-23', 2),
-('Compost Workshop',     'Run a hands-on composting workshop for local residents and farmers.',                    'Cowdray Park, Bulawayo',       '2025-09-13', 2),
-('Water Harvesting',     'Install simple rainwater-harvesting systems at three community gardens.',                'Entumbane, Bulawayo',          '2025-09-27', 2),
-('Harvest Festival',     'Celebrate the harvest season and distribute fresh produce to vulnerable families.',      'Emganwini, Bulawayo',          '2025-10-18', 2);
+('Urban Garden Setup',   'Help establish raised-bed vegetable gardens in underserved neighbourhoods.',             'Mpopoma, Bulawayo',            '2026-08-09', 2),
+('Tree Planting Day',    'Plant indigenous trees along school fences to restore green cover.',                     'Pumula South, Bulawayo',       '2026-08-23', 2),
+('Compost Workshop',     'Run a hands-on composting workshop for local residents and farmers.',                    'Cowdray Park, Bulawayo',       '2026-09-13', 2),
+('Water Harvesting',     'Install simple rainwater-harvesting systems at three community gardens.',                'Entumbane, Bulawayo',          '2026-09-27', 2),
+('Harvest Festival',     'Celebrate the harvest season and distribute fresh produce to vulnerable families.',      'Emganwini, Bulawayo',          '2026-10-18', 2);
 
 -- UnityServe Volunteers (org 3)
 INSERT INTO project (title, description, location, date, organization_id) VALUES
-('Food Drive',           'Help collect and distribute food parcels to those in need in our local community.',      'City Centre, Bulawayo',        '2025-08-30', 3),
-('Community Tutoring',   'Volunteer to tutor students in Maths and English to help them succeed academically.',    'Famona Library, Bulawayo',     '2025-09-07', 3),
-('Clothing Donation',    'Sort and distribute donated clothing to families affected by recent flooding.',          'Tshabalala, Bulawayo',         '2025-09-21', 3),
-('Senior Care Visit',    'Spend time with elderly residents at a local care home — play games and share meals.',   'Barbourfields, Bulawayo',      '2025-10-11', 3),
-('Blood Drive',          'Assist the Red Cross in coordinating a community blood donation event.',                 'Mater Dei Hospital, Bulawayo', '2025-10-25', 3);
+('Food Drive',           'Help collect and distribute food parcels to those in need in our local community.',      'City Centre, Bulawayo',        '2026-08-30', 3),
+('Community Tutoring',   'Volunteer to tutor students in Maths and English to help them succeed academically.',    'Famona Library, Bulawayo',     '2026-09-07', 3),
+('Clothing Donation',    'Sort and distribute donated clothing to families affected by recent flooding.',          'Tshabalala, Bulawayo',         '2026-09-21', 3),
+('Senior Care Visit',    'Spend time with elderly residents at a local care home — play games and share meals.',   'Barbourfields, Bulawayo',      '2026-10-11', 3),
+('Blood Drive',          'Assist the Red Cross in coordinating a community blood donation event.',                 'Mater Dei Hospital, Bulawayo', '2026-10-25', 3);
 
 
 -- ========================================

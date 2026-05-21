@@ -1,11 +1,40 @@
 <%- include('partials/header') %>
-<main>
-    <h1><%= title %></h1>
-        <h2>Upcoming Service Projects</h2>
-<ul>
-    <li>Park Cleanup - Join us to clean up local parks and make them beautiful!</li>
-    <li>Food Drive - Help collect and distribute food to those in need.</li>
-    <li>Community Tutoring - Volunteer to tutor students in various subjects.</li>
-</ul>
-</main>
-<%- include('partials/footer') %>
+
+    <main>
+        <h1>
+            <%= title %>
+        </h1>
+        <p>Here are the next five upcoming service opportunities. Click on a project to learn more.</p>
+
+        <ul>
+            <% projects.forEach(project=> { %>
+                <li>
+                    <div>
+                        <strong>
+                            <a href="/project/<%= project.project_id %>">
+                                <%= project.title %>
+                            </a>
+                        </strong>
+                        <br>
+                        <span>
+                            📅 <%= new Date(project.date).toLocaleDateString('en-US', { year: 'numeric' , month: 'long'
+                                , day: 'numeric' , timeZone: 'UTC' }) %>
+                        </span>
+                        &nbsp;|&nbsp;
+                        <span>📍 <%= project.location %></span>
+                        <br>
+                        <span>
+                            🤝 <a href="/organization/<%= project.organization_id %>">
+                                <%= project.organization_name %>
+                            </a>
+                        </span>
+                        <p>
+                            <%= project.description %>
+                        </p>
+                    </div>
+                </li>
+                <% }); %>
+        </ul>
+    </main>
+
+    <%- include('partials/footer') %>

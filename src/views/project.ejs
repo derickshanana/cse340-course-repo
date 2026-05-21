@@ -1,0 +1,47 @@
+<%- include('partials/header') %>
+
+    <main>
+        <h1>
+            <%= project.title %>
+        </h1>
+
+        <ul>
+            <li>
+                <div>
+                    <strong>Description</strong>
+                    <p>
+                        <%= project.description %>
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <strong>📅 Date</strong>
+                    <p>
+                        <%= new Date(project.date).toLocaleDateString('en-US', { year: 'numeric' , month: 'long' ,
+                            day: 'numeric' , timeZone: 'UTC' }) %>
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <strong>📍 Location</strong>
+                    <p>
+                        <%= project.location %>
+                    </p>
+                </div>
+            </li>
+            <li>
+                <div>
+                    <strong>🤝 Partner Organization</strong>
+                    <p><a href="/organization/<%= project.organization_id %>">
+                            <%= project.organization_name %>
+                        </a></p>
+                </div>
+            </li>
+        </ul>
+
+        <p><a href="/projects">&larr; Back to Upcoming Projects</a></p>
+    </main>
+
+    <%- include('partials/footer') %>

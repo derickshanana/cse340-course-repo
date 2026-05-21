@@ -1,13 +1,15 @@
 <%- include('partials/header') %>
 
     <main>
-        <h1>
-            <%= project.title %>
-        </h1>
+        <div class="detail-header">
+            <h1>
+                <%= project.title %>
+            </h1>
+        </div>
 
-        <ul>
+        <ul class="detail-list">
             <li>
-                <div>
+                <div class="card-content">
                     <strong>Description</strong>
                     <p>
                         <%= project.description %>
@@ -15,7 +17,7 @@
                 </div>
             </li>
             <li>
-                <div>
+                <div class="card-content">
                     <strong>📅 Date</strong>
                     <p>
                         <%= new Date(project.date).toLocaleDateString('en-US', { year: 'numeric' , month: 'long' ,
@@ -24,7 +26,7 @@
                 </div>
             </li>
             <li>
-                <div>
+                <div class="card-content">
                     <strong>📍 Location</strong>
                     <p>
                         <%= project.location %>
@@ -32,16 +34,30 @@
                 </div>
             </li>
             <li>
-                <div>
+                <div class="card-content">
                     <strong>🤝 Partner Organization</strong>
                     <p><a href="/organization/<%= project.organization_id %>">
                             <%= project.organization_name %>
                         </a></p>
                 </div>
             </li>
+            <% if (categories && categories.length> 0) { %>
+                <li>
+                    <div class="card-content">
+                        <strong>🏷️ Categories</strong>
+                        <div class="tag-list">
+                            <% categories.forEach(category=> { %>
+                                <a href="/category/<%= category.category_id %>" class="tag">
+                                    <%= category.name %>
+                                </a>
+                                <% }); %>
+                        </div>
+                    </div>
+                </li>
+                <% } %>
         </ul>
 
-        <p><a href="/projects">&larr; Back to Upcoming Projects</a></p>
+        <p class="back-link"><a href="/projects">&larr; Back to Upcoming Projects</a></p>
     </main>
 
     <%- include('partials/footer') %>

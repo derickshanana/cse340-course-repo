@@ -5,18 +5,20 @@
             <%= title %>
         </h1>
         <p>Browse service projects by category to find opportunities that match your interests and skills.</p>
+
         <ul class="categories-list">
             <% const categoryIcons={ 'Environmental' : '🌿' , 'Educational' : '📚' , 'Community Service' : '🤝'
                 , 'Health and Wellness' : '❤️' }; categories.forEach(category=> { %>
                 <li>
-                    <span class="category-icon">
-                        <%= categoryIcons[category.name] || '🌟' %>
-                    </span>
-                    <div>
+                    <a href="/category/<%= category.category_id %>" class="category-card-link">
+                        <span class="category-icon">
+                            <%= categoryIcons[category.name] || '🌟' %>
+                        </span>
                         <strong>
                             <%= category.name %>
                         </strong>
-                    </div>
+                        <span class="category-arrow">›</span>
+                    </a>
                 </li>
                 <% }); %>
         </ul>

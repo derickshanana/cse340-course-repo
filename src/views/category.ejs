@@ -1,25 +1,15 @@
 <%- include('partials/header') %>
 
     <main>
-        <div class="detail-header org-header">
-            <img class="org-logo" src="/images/<%= organizationDetails.logo_filename %>"
-                alt="<%= organizationDetails.name %> logo">
-            <div>
-                <h1>
-                    <%= organizationDetails.name %>
-                </h1>
-                <p class="org-email">✉️ <%= organizationDetails.contact_email %>
-                </p>
-            </div>
+        <div class="detail-header">
+            <h1>
+                <%= category.name %>
+            </h1>
+            <p>All service projects in this category.</p>
         </div>
 
-        <p>
-            <%= organizationDetails.description %>
-        </p>
-
-        <h2>Service Projects</h2>
         <% if (projects.length===0) { %>
-            <p class="empty-state">No service projects currently listed for this organization.</p>
+            <p class="empty-state">No service projects are currently listed under this category.</p>
             <% } else { %>
                 <ul>
                     <% projects.forEach(project=> { %>
@@ -36,13 +26,18 @@
                                         &nbsp;|&nbsp;
                                         📍 <%= project.location %>
                                 </span>
+                                <span class="meta">
+                                    🤝 <a href="/organization/<%= project.organization_id %>">
+                                        <%= project.organization_name %>
+                                    </a>
+                                </span>
                             </div>
                         </li>
                         <% }); %>
                 </ul>
                 <% } %>
 
-                    <p class="back-link"><a href="/organizations">&larr; Back to All Organizations</a></p>
+                    <p class="back-link"><a href="/categories">&larr; Back to All Categories</a></p>
     </main>
 
     <%- include('partials/footer') %>

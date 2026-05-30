@@ -22,6 +22,11 @@ import {
 import {
     showCategoriesPage,
     showCategoryDetailsPage,
+    showNewCategoryForm,
+    processNewCategoryForm,
+    categoryValidation,
+    showEditCategoryForm,
+    processEditCategoryForm,
     showAssignCategoriesForm,
     processAssignCategoriesForm
 } from './controllers/categories.js';
@@ -53,6 +58,14 @@ router.post('/new-project', projectValidation, processNewProjectForm);
 // ─── Edit Project ─────────────────────────────────────────────────────────────
 router.get('/edit-project/:id', showEditProjectForm);
 router.post('/edit-project/:id', projectValidation, processEditProjectForm);
+
+// ─── New Category ─────────────────────────────────────────────────────────────
+router.get('/new-category', showNewCategoryForm);
+router.post('/new-category', categoryValidation, processNewCategoryForm);
+
+// ─── Edit Category ────────────────────────────────────────────────────────────
+router.get('/edit-category/:id', showEditCategoryForm);
+router.post('/edit-category/:id', categoryValidation, processEditCategoryForm);
 
 // ─── Assign Categories ───────────────────────────────────────────────────────
 router.get('/assign-categories/:projectId', showAssignCategoriesForm);

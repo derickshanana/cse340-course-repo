@@ -15,7 +15,9 @@ import {
     showProjectDetailsPage,
     showNewProjectForm,
     processNewProjectForm,
-    projectValidation
+    projectValidation,
+    showEditProjectForm,
+    processEditProjectForm
 } from './controllers/projects.js';
 import {
     showCategoriesPage,
@@ -36,29 +38,23 @@ router.get('/organization/:id', showOrganizationDetailsPage);
 router.get('/project/:id', showProjectDetailsPage);
 router.get('/category/:id', showCategoryDetailsPage);
 
-// ─── Activity 1 + 2 + 3: New Organization ────────────────────────────────────
-// Route for new organization page
+// ─── New Organization ────────────────────────────────────────────────────────
 router.get('/new-organization', showNewOrganizationForm);
-
-// Route to handle new organization form submission (with validation middleware)
 router.post('/new-organization', organizationValidation, processNewOrganizationForm);
 
-// ─── Activity 4: Edit Organization ───────────────────────────────────────────
-// Route to display the edit organization form
+// ─── Edit Organization ───────────────────────────────────────────────────────
 router.get('/edit-organization/:id', showEditOrganizationForm);
-
-// Route to handle the edit organization form submission (with validation middleware)
 router.post('/edit-organization/:id', organizationValidation, processEditOrganizationForm);
 
-// ─── Activity 5: New Project ──────────────────────────────────────────────────
-// Route for new project page
+// ─── New Project ─────────────────────────────────────────────────────────────
 router.get('/new-project', showNewProjectForm);
-
-// Route to handle new project form submission (with validation middleware)
 router.post('/new-project', projectValidation, processNewProjectForm);
 
-// ─── Activity 6: Assign Categories ───────────────────────────────────────────
-// Routes to handle the assign categories to project form
+// ─── Edit Project ─────────────────────────────────────────────────────────────
+router.get('/edit-project/:id', showEditProjectForm);
+router.post('/edit-project/:id', projectValidation, processEditProjectForm);
+
+// ─── Assign Categories ───────────────────────────────────────────────────────
 router.get('/assign-categories/:projectId', showAssignCategoriesForm);
 router.post('/assign-categories/:projectId', processAssignCategoriesForm);
 

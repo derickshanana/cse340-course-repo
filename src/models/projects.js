@@ -101,15 +101,6 @@ const getProjectDetails = async (id) => {
     }
 };
 
-/**
- * Creates a new service project in the database.
- * @param {string} title - The project title.
- * @param {string} description - The project description.
- * @param {string} location - The project location.
- * @param {string} date - The project date (ISO format).
- * @param {number} organizationId - The associated organization ID.
- * @returns {number} The id of the newly created project record.
- */
 const createProject = async (title, description, location, date, organizationId) => {
     const query = `
       INSERT INTO project (title, description, location, date, organization_id)
@@ -131,5 +122,37 @@ const createProject = async (title, description, location, date, organizationId)
     return result.rows[0].project_id;
 };
 
+/**
+ * Updates an existing service project in the database.
+ * @param {number} projectId - The ID of the project to update.
+ * @param {string} title - The updated title.
+ * @param {string} description - The updated description.
+ * @param {string} location - The updated location.
+ * @param {string} date - The updated date (ISO format).
+ * @param {number} organizationId - The updated organization ID.
+ * @returns {number} The id of the updated project record.
+ */
+const updateProject = async (projectId, title, description, location, date, organizationId) => {
+    const query = `
+        UPDATE project
+        SET title = $1, description = $2, location = $3, date = $4, organization_id = $5
+        WHERE project_id = $6
+        RETURNING project_id;
+    `;
+
+    const queryParams = [title, description, location, date, organizationId, projectId];
+    const result = await db.query(query, queryParams);
+
+    if (result.rows.length === 0) {
+        throw new Error('Project not found');
+    }
+
+    if (process.env.ENABLE_SQL_LOGGING === 'true') {
+        console.log('Updated project with ID:', projectId);
+    }
+
+    return result.rows[0].project_id;
+};
+
 // Export the model functions
-export { getAllProjects, getProjectsByOrganizationId, getUpcomingProjects, getProjectDetails, createProject };
+export { getAllProjects, getProjectsByOrganizationId, getUpcomingProjects, getProjectDetails, createProject, updateProject };

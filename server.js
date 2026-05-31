@@ -6,7 +6,7 @@ import { testConnection } from './src/models/db.js';
 import router from './src/routes.js';
 import flash from './src/middleware/flash.js';
 
-// Define the the application environment
+// Define the application environment
 const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || 'production';
 
 // Define the port number the server will listen on
@@ -21,8 +21,8 @@ const __dirname = path.dirname(__filename);
 const app = express();
 
 /**
-  * Configure Express middleware
-  */
+ * Configure Express middleware
+ */
 
 // Set up session management
 app.use(session({
@@ -56,8 +56,17 @@ app.use((req, res, next) => {
     next();
 });
 
-// Middleware to make NODE_ENV available to all templates
+// Middleware to expose auth state and user data to all templates
+// Activity 3: isLoggedIn | Team Activity: user (with role_name)
 app.use((req, res, next) => {
+    res.locals.isLoggedIn = false;
+    if (req.session && req.session.user) {
+        res.locals.isLoggedIn = true;
+    }
+
+    // Make full user object (incl. role_name) available in every template
+    res.locals.user = req.session?.user || null;
+
     res.locals.NODE_ENV = NODE_ENV;
     next();
 });
@@ -74,22 +83,18 @@ app.use((req, res, next) => {
 
 // Global error handler
 app.use((err, req, res, next) => {
-    // Log error details for debugging
     console.error('Error occurred:', err.message);
     console.error('Stack trace:', err.stack);
 
-    // Determine status and template
     const status = err.status || 500;
     const template = status === 404 ? '404' : '500';
 
-    // Prepare data for the template
     const context = {
         title: status === 404 ? 'Page Not Found' : 'Server Error',
         error: err.message,
         stack: err.stack
     };
 
-    // Render the appropriate error template
     res.status(status).render(`errors/${template}`, context);
 });
 

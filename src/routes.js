@@ -30,11 +30,22 @@ import {
     showAssignCategoriesForm,
     processAssignCategoriesForm
 } from './controllers/categories.js';
+import {
+    showUserRegistrationForm,
+    processUserRegistrationForm,
+    showLoginForm,
+    processLoginForm,
+    processLogout,
+    requireLogin,
+    requireRole,
+    showDashboard,
+    showUsersPage
+} from './controllers/users.js';
 import { testErrorPage } from './controllers/errors.js';
 
 const router = express.Router();
 
-// ─── Core routes ─────────────────────────────────────────────────────────────
+// ─── Public core routes ───────────────────────────────────────────────────────
 router.get('/', showHomePage);
 router.get('/organizations', showOrganizationsPage);
 router.get('/projects', showProjectsPage);
@@ -43,38 +54,50 @@ router.get('/organization/:id', showOrganizationDetailsPage);
 router.get('/project/:id', showProjectDetailsPage);
 router.get('/category/:id', showCategoryDetailsPage);
 
-// ─── New Organization ────────────────────────────────────────────────────────
-router.get('/new-organization', showNewOrganizationForm);
-router.post('/new-organization', organizationValidation, processNewOrganizationForm);
+// ─── Auth routes (Activity 2 & 3) ────────────────────────────────────────────
+router.get('/register', showUserRegistrationForm);
+router.post('/register', processUserRegistrationForm);
 
-// ─── Edit Organization ───────────────────────────────────────────────────────
-router.get('/edit-organization/:id', showEditOrganizationForm);
-router.post('/edit-organization/:id', organizationValidation, processEditOrganizationForm);
+router.get('/login', showLoginForm);
+router.post('/login', processLoginForm);
 
-// ─── New Project ─────────────────────────────────────────────────────────────
-router.get('/new-project', showNewProjectForm);
-router.post('/new-project', projectValidation, processNewProjectForm);
+router.get('/logout', processLogout);
 
-// ─── Edit Project ─────────────────────────────────────────────────────────────
-router.get('/edit-project/:id', showEditProjectForm);
-router.post('/edit-project/:id', projectValidation, processEditProjectForm);
+// ─── Protected dashboard (Activity 4) ────────────────────────────────────────
+router.get('/dashboard', requireLogin, showDashboard);
 
-// ─── New Category ─────────────────────────────────────────────────────────────
-router.get('/new-category', showNewCategoryForm);
-router.post('/new-category', categoryValidation, processNewCategoryForm);
+// ─── Admin: Users list (Assignment) ──────────────────────────────────────────
+router.get('/users', requireLogin, requireRole('admin'), showUsersPage);
 
-// ─── Edit Category ────────────────────────────────────────────────────────────
-router.get('/edit-category/:id', showEditCategoryForm);
-router.post('/edit-category/:id', categoryValidation, processEditCategoryForm);
+// ─── Admin: New Organization ──────────────────────────────────────────────────
+router.get('/new-organization', requireLogin, requireRole('admin'), showNewOrganizationForm);
+router.post('/new-organization', requireLogin, requireRole('admin'), organizationValidation, processNewOrganizationForm);
 
-// ─── Assign Categories ───────────────────────────────────────────────────────
-router.get('/assign-categories/:projectId', showAssignCategoriesForm);
-router.post('/assign-categories/:projectId', processAssignCategoriesForm);
+// ─── Admin: Edit Organization ─────────────────────────────────────────────────
+router.get('/edit-organization/:id', requireLogin, requireRole('admin'), showEditOrganizationForm);
+router.post('/edit-organization/:id', requireLogin, requireRole('admin'), organizationValidation, processEditOrganizationForm);
+
+// ─── Admin: New Project ───────────────────────────────────────────────────────
+router.get('/new-project', requireLogin, requireRole('admin'), showNewProjectForm);
+router.post('/new-project', requireLogin, requireRole('admin'), projectValidation, processNewProjectForm);
+
+// ─── Admin: Edit Project ──────────────────────────────────────────────────────
+router.get('/edit-project/:id', requireLogin, requireRole('admin'), showEditProjectForm);
+router.post('/edit-project/:id', requireLogin, requireRole('admin'), projectValidation, processEditProjectForm);
+
+// ─── Admin: New Category ─────────────────────────────────────────────────────
+router.get('/new-category', requireLogin, requireRole('admin'), showNewCategoryForm);
+router.post('/new-category', requireLogin, requireRole('admin'), categoryValidation, processNewCategoryForm);
+
+// ─── Admin: Edit Category ─────────────────────────────────────────────────────
+router.get('/edit-category/:id', requireLogin, requireRole('admin'), showEditCategoryForm);
+router.post('/edit-category/:id', requireLogin, requireRole('admin'), categoryValidation, processEditCategoryForm);
+
+// ─── Admin: Assign Categories ─────────────────────────────────────────────────
+router.get('/assign-categories/:projectId', requireLogin, requireRole('admin'), showAssignCategoriesForm);
+router.post('/assign-categories/:projectId', requireLogin, requireRole('admin'), processAssignCategoriesForm);
 
 // ─── Error-handling routes ────────────────────────────────────────────────────
 router.get('/test-error', testErrorPage);
 
 export default router;
-
-
-// ─── Done ────────────────────────────────────────────────────

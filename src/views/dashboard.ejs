@@ -1,0 +1,36 @@
+<%- include('partials/header') %>
+    <main>
+        <h1>
+            <%= title %>
+        </h1>
+
+        <div class="dashboard-card">
+            <h2>Welcome back, <%= name %>!</h2>
+            <p><strong>Name:</strong>
+                <%= name %>
+            </p>
+            <p><strong>Username:</strong>
+                <%= email %>
+            </p>
+            <% if (user && user.role_name) { %>
+                <p><strong>Role:</strong> <span class="role-badge role-<%= user.role_name %>">
+                        <%= user.role_name %>
+                    </span></p>
+                <% } %>
+        </div>
+
+        <% if (user && user.role_name==='admin' ) { %>
+            <div class="admin-panel">
+                <h2>Admin Tools</h2>
+                <ul>
+                    <li><a href="/users">View All Registered Users</a></li>
+                    <li><a href="/new-organization">Add New Organization</a></li>
+                    <li><a href="/new-project">Add New Service Project</a></li>
+                    <li><a href="/new-category">Add New Category</a></li>
+                </ul>
+            </div>
+            <% } %>
+
+                <p class="back-link"><a href="/">&larr; Back to Home</a></p>
+    </main>
+    <%- include('partials/footer') %>

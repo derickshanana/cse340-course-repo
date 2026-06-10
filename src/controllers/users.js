@@ -1,7 +1,8 @@
 import bcrypt from 'bcrypt';
 import { createUser, authenticateUser, getAllUsers } from '../models/users.js';
+import { getVolunteerProjectsByUserId } from '../models/volunteers.js';
 
-// ─── Registration (Activity 2) ────────────────────────────────────────────────
+// ─── Registration ─────────────────────────────────────────────────────────────
 
 const showUserRegistrationForm = (req, res) => {
     res.render('register', { title: 'Register' });
@@ -11,11 +12,8 @@ const processUserRegistrationForm = async (req, res) => {
     const { name, email, password } = req.body;
 
     try {
-        // Hash the password before storing it
         const salt = await bcrypt.genSalt(10);
         const passwordHash = await bcrypt.hash(password, salt);
-
-        // Create the user in the database
         await createUser(name, email, passwordHash);
 
         req.flash('success', 'Registration successful! Please log in.');
@@ -27,7 +25,7 @@ const processUserRegistrationForm = async (req, res) => {
     }
 };
 
-// ─── Login / Logout (Activity 3) ─────────────────────────────────────────────
+// ─── Login / Logout ───────────────────────────────────────────────────────────
 
 const showLoginForm = (req, res) => {
     res.render('login', { title: 'Login' });
@@ -40,7 +38,6 @@ const processLoginForm = async (req, res) => {
         const user = await authenticateUser(email, password);
 
         if (user) {
-            // Store user info (including role_name) in session
             req.session.user = user;
             req.flash('success', 'Login successful!');
 
@@ -64,17 +61,12 @@ const processLogout = (req, res) => {
     if (req.session.user) {
         delete req.session.user;
     }
-
     req.flash('success', 'You have been logged out successfully.');
     res.redirect('/login');
 };
 
-// ─── Protected Routes Middleware (Activity 4) ────────────────────────────────
+// ─── Middleware ───────────────────────────────────────────────────────────────
 
-/**
- * Middleware: requires the user to be logged in.
- * Redirects to /login with an error flash if not authenticated.
- */
 const requireLogin = (req, res, next) => {
     if (!req.session || !req.session.user) {
         req.flash('error', 'You must be logged in to access that page.');
@@ -83,43 +75,39 @@ const requireLogin = (req, res, next) => {
     next();
 };
 
-/**
- * Middleware factory: requires the user to have a specific role.
- * Call as requireRole('admin') to get a middleware function.
- *
- * @param {string} role - The required role_name (e.g. 'admin', 'user')
- * @returns {Function} Express middleware
- */
 const requireRole = (role) => {
     return (req, res, next) => {
-        // Must be logged in first
         if (!req.session || !req.session.user) {
             req.flash('error', 'You must be logged in to access this page.');
             return res.redirect('/login');
         }
-
-        // Must have the required role
         if (req.session.user.role_name !== role) {
             req.flash('error', 'You do not have permission to access this page.');
             return res.redirect('/');
         }
-
         next();
     };
 };
 
-// ─── Dashboard (Activity 4) ───────────────────────────────────────────────────
+// ─── Dashboard ────────────────────────────────────────────────────────────────
 
-const showDashboard = (req, res) => {
+/**
+ * Renders the dashboard, including the list of projects
+ * the logged-in user has volunteered for.
+ */
+const showDashboard = async (req, res) => {
     const user = req.session.user;
+    const volunteerProjects = await getVolunteerProjectsByUserId(user.user_id);
+
     res.render('dashboard', {
         title: 'Dashboard',
         name: user.name,
-        email: user.email
+        email: user.email,
+        volunteerProjects
     });
 };
 
-// ─── Admin Users Page (Assignment) ───────────────────────────────────────────
+// ─── Admin Users Page ─────────────────────────────────────────────────────────
 
 const showUsersPage = async (req, res) => {
     const users = await getAllUsers();

@@ -1,11 +1,12 @@
 import { getUpcomingProjects, getProjectDetails, createProject, updateProject } from '../models/projects.js';
 import { getCategoriesByProjectId } from '../models/categories.js';
 import { getAllOrganizations } from '../models/organizations.js';
+import { isUserVolunteering } from '../models/volunteers.js';
 import { body, validationResult } from 'express-validator';
 
 const NUMBER_OF_UPCOMING_PROJECTS = 5;
 
-// ─── Validation Rules ────────────────────────────────────────────────────────
+// ─── Validation Rules ─────────────────────────────────────────────────────────
 
 const projectValidation = [
     body('title')
@@ -36,22 +37,31 @@ const showProjectsPage = async (req, res) => {
     res.render('projects', { title, projects });
 };
 
+/**
+ * Shows the project details page.
+ * If the user is logged in, also checks whether they are already volunteering.
+ */
 const showProjectDetailsPage = async (req, res) => {
     const id = req.params.id;
     const project = await getProjectDetails(id);
     const categories = await getCategoriesByProjectId(id);
     const title = project ? project.title : 'Project Details';
-    res.render('project', { title, project, categories });
+
+    // Check volunteer status only for logged-in users
+    let volunteering = false;
+    if (req.session && req.session.user) {
+        volunteering = await isUserVolunteering(req.session.user.user_id, id);
+    }
+
+    res.render('project', { title, project, categories, volunteering });
 };
 
-// Activity 5: Show new project form with organizations dropdown
 const showNewProjectForm = async (req, res) => {
     const organizations = await getAllOrganizations();
     const title = 'Add New Service Project';
     res.render('new-project', { title, organizations });
 };
 
-// Activity 5: Process new project form with validation and flash
 const processNewProjectForm = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -68,26 +78,23 @@ const processNewProjectForm = async (req, res) => {
     res.redirect(`/project/${newProjectId}`);
 };
 
-// Team Activity: Show the edit project form pre-populated with existing data
 const showEditProjectForm = async (req, res) => {
     const projectId = req.params.id;
-    const projectDetails = await getProjectDetails(projectId);
+    const project = await getProjectDetails(projectId);
     const organizations = await getAllOrganizations();
-
     const title = 'Edit Service Project';
-    res.render('update-project', { title, projectDetails, organizations });
+    res.render('edit-project', { title, project, organizations });
 };
 
-// Team Activity: Process the edit project form submission
 const processEditProjectForm = async (req, res) => {
     const projectId = req.params.id;
 
-    const results = validationResult(req);
-    if (!results.isEmpty()) {
-        results.array().forEach((error) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        errors.array().forEach((error) => {
             req.flash('error', error.msg);
         });
-        return res.redirect('/edit-project/' + projectId);
+        return res.redirect(`/edit-project/${projectId}`);
     }
 
     const { title, description, location, date, organizationId } = req.body;
@@ -97,7 +104,6 @@ const processEditProjectForm = async (req, res) => {
     res.redirect(`/project/${projectId}`);
 };
 
-// Export controller functions
 export {
     showProjectsPage,
     showProjectDetailsPage,

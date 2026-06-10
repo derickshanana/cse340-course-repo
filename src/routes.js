@@ -41,6 +41,11 @@ import {
     showDashboard,
     showUsersPage
 } from './controllers/users.js';
+import {
+    volunteerForProject,
+    unvolunteerFromProject,
+    unvolunteerFromDashboard
+} from './controllers/volunteers.js';
 import { testErrorPage } from './controllers/errors.js';
 
 const router = express.Router();
@@ -54,42 +59,39 @@ router.get('/organization/:id', showOrganizationDetailsPage);
 router.get('/project/:id', showProjectDetailsPage);
 router.get('/category/:id', showCategoryDetailsPage);
 
-// ─── Auth routes (Activity 2 & 3) ────────────────────────────────────────────
+// ─── Volunteer routes (requireLogin — any logged-in user) ────────────────────
+router.post('/project/:id/volunteer', requireLogin, volunteerForProject);
+router.post('/project/:id/unvolunteer', requireLogin, unvolunteerFromProject);
+router.post('/dashboard/unvolunteer/:id', requireLogin, unvolunteerFromDashboard);
+
+// ─── Auth routes ──────────────────────────────────────────────────────────────
 router.get('/register', showUserRegistrationForm);
 router.post('/register', processUserRegistrationForm);
-
 router.get('/login', showLoginForm);
 router.post('/login', processLoginForm);
-
 router.get('/logout', processLogout);
 
-// ─── Protected dashboard (Activity 4) ────────────────────────────────────────
+// ─── Protected dashboard ──────────────────────────────────────────────────────
 router.get('/dashboard', requireLogin, showDashboard);
 
-// ─── Admin: Users list (Assignment) ──────────────────────────────────────────
+// ─── Admin: Users list ────────────────────────────────────────────────────────
 router.get('/users', requireLogin, requireRole('admin'), showUsersPage);
 
-// ─── Admin: New Organization ──────────────────────────────────────────────────
+// ─── Admin: Organizations ─────────────────────────────────────────────────────
 router.get('/new-organization', requireLogin, requireRole('admin'), showNewOrganizationForm);
 router.post('/new-organization', requireLogin, requireRole('admin'), organizationValidation, processNewOrganizationForm);
-
-// ─── Admin: Edit Organization ─────────────────────────────────────────────────
 router.get('/edit-organization/:id', requireLogin, requireRole('admin'), showEditOrganizationForm);
 router.post('/edit-organization/:id', requireLogin, requireRole('admin'), organizationValidation, processEditOrganizationForm);
 
-// ─── Admin: New Project ───────────────────────────────────────────────────────
+// ─── Admin: Projects ──────────────────────────────────────────────────────────
 router.get('/new-project', requireLogin, requireRole('admin'), showNewProjectForm);
 router.post('/new-project', requireLogin, requireRole('admin'), projectValidation, processNewProjectForm);
-
-// ─── Admin: Edit Project ──────────────────────────────────────────────────────
 router.get('/edit-project/:id', requireLogin, requireRole('admin'), showEditProjectForm);
 router.post('/edit-project/:id', requireLogin, requireRole('admin'), projectValidation, processEditProjectForm);
 
-// ─── Admin: New Category ─────────────────────────────────────────────────────
+// ─── Admin: Categories ────────────────────────────────────────────────────────
 router.get('/new-category', requireLogin, requireRole('admin'), showNewCategoryForm);
 router.post('/new-category', requireLogin, requireRole('admin'), categoryValidation, processNewCategoryForm);
-
-// ─── Admin: Edit Category ─────────────────────────────────────────────────────
 router.get('/edit-category/:id', requireLogin, requireRole('admin'), showEditCategoryForm);
 router.post('/edit-category/:id', requireLogin, requireRole('admin'), categoryValidation, processEditCategoryForm);
 

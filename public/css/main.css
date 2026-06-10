@@ -542,7 +542,7 @@ button[type="submit"]:hover {
     margin: 12px 0;
     border: 1px solid transparent;
     border-radius: 5px;
-    font-size: 0.95rem;
+    font-size: .95rem;
 }
 
 .alert p {
@@ -581,7 +581,7 @@ button[type="submit"]:hover {
 .form-group label {
     display: block;
     font-weight: 600;
-    margin-bottom: 0.35rem;
+    margin-bottom: .35rem;
 }
 
 .form-group input[type="text"],
@@ -593,7 +593,7 @@ button[type="submit"]:hover {
 .form-group select {
     width: 100%;
     max-width: 460px;
-    padding: 0.5rem 0.75rem;
+    padding: .5rem .75rem;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 1rem;
@@ -606,33 +606,25 @@ button[type="submit"]:hover {
     resize: vertical;
 }
 
-.form-group input:focus,
-.form-group textarea:focus,
-.form-group select:focus {
-    outline: none;
-    border-color: var(--color-accent, #6366f1);
-    box-shadow: 0 0 0 2px rgba(99, 102, 241, .2);
-}
-
 button[type="submit"] {
     background-color: var(--color-accent, #6366f1);
     color: #fff;
     border: none;
-    padding: 0.6rem 1.5rem;
+    padding: .6rem 1.5rem;
     border-radius: 4px;
     font-size: 1rem;
     cursor: pointer;
-    margin-top: 0.4rem;
+    margin-top: .4rem;
 }
 
 button[type="submit"]:hover {
-    opacity: 0.88;
+    opacity: .88;
 }
 
-/* ─── Auth switch link ───────────────────────────────────────────────────── */
+/* ─── Auth ───────────────────────────────────────────────────────────────── */
 .auth-switch {
     margin-top: 1rem;
-    font-size: 0.92rem;
+    font-size: .92rem;
 }
 
 /* ─── Role badges ────────────────────────────────────────────────────────── */
@@ -640,10 +632,10 @@ button[type="submit"]:hover {
     display: inline-block;
     padding: 2px 10px;
     border-radius: 12px;
-    font-size: 0.8rem;
+    font-size: .8rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: .04em;
 }
 
 .role-admin {
@@ -667,10 +659,10 @@ button[type="submit"]:hover {
 }
 
 .dashboard-card p {
-    margin: 0.4rem 0;
+    margin: .4rem 0;
 }
 
-/* ─── Admin panel box ────────────────────────────────────────────────────── */
+/* ─── Admin panel ────────────────────────────────────────────────────────── */
 .admin-panel {
     background: #fffbeb;
     border: 1px solid #fde68a;
@@ -686,12 +678,12 @@ button[type="submit"]:hover {
 }
 
 .admin-panel ul {
-    margin: 0.5rem 0 0;
+    margin: .5rem 0 0;
     padding-left: 1.2rem;
 }
 
 .admin-panel li {
-    margin-bottom: 0.4rem;
+    margin-bottom: .4rem;
 }
 
 /* ─── Users table ────────────────────────────────────────────────────────── */
@@ -699,7 +691,7 @@ button[type="submit"]:hover {
     width: 100%;
     border-collapse: collapse;
     margin-top: 1rem;
-    font-size: 0.95rem;
+    font-size: .95rem;
 }
 
 .users-table th,
@@ -712,9 +704,100 @@ button[type="submit"]:hover {
 .users-table thead th {
     background: var(--color-surface, #f9fafb);
     font-weight: 700;
-    color: var(--color-text, #111);
 }
 
 .users-table tbody tr:hover {
     background: #f3f4f6;
+}
+
+/* ─── Volunteer section (project detail page) ────────────────────────────── */
+.volunteer-section {
+    margin: 1.5rem 0;
+    padding: 1.2rem 1.5rem;
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-radius: 8px;
+    max-width: 480px;
+}
+
+.volunteer-status {
+    margin: 0 0 .75rem;
+    color: #166534;
+    font-size: 1rem;
+}
+
+.btn-volunteer {
+    background-color: #16a34a;
+    color: #fff;
+    border: none;
+    padding: .6rem 1.4rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.btn-volunteer:hover {
+    background-color: #15803d;
+}
+
+.btn-remove-volunteer {
+    background-color: #dc2626;
+    color: #fff;
+    border: none;
+    padding: .6rem 1.2rem;
+    border-radius: 4px;
+    font-size: .95rem;
+    cursor: pointer;
+}
+
+.btn-remove-volunteer:hover {
+    background-color: #b91c1c;
+}
+
+.btn-small {
+    padding: .35rem .85rem;
+    font-size: .85rem;
+}
+
+/* ─── Volunteer dashboard list ───────────────────────────────────────────── */
+.volunteer-dashboard {
+    margin-bottom: 1.8rem;
+}
+
+.volunteer-dashboard h2 {
+    margin-bottom: .75rem;
+}
+
+.volunteer-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-width: 680px;
+}
+
+.volunteer-item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 1.2rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    margin-bottom: .75rem;
+    background: var(--color-surface, #fff);
+}
+
+.volunteer-item-info {
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+}
+
+.volunteer-item-info strong a {
+    font-size: 1rem;
+}
+
+.remove-volunteer-form {
+    flex-shrink: 0;
+    margin-top: .2rem;
 }
